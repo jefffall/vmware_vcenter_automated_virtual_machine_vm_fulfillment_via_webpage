@@ -1,0 +1,38 @@
+---
+- name: Create a VM from a template
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: Clone the template
+    vmware_guest:
+      hostname: vcenter.jeffreyfall.com
+      username: administrator@vsphere.local
+      password: "!VerySecure1"
+      validate_certs: False
+      name: Centos7 2023-04-01 18:36:44
+      template: CentOS7-Template
+      datacenter: Datacenter
+      folder: /Datacenter/vm
+      state: poweredon
+      wait_for_ip_address: yes
+      disk:
+      - size_gb: 15
+        type: thin
+        datastore: datastore3
+
+      hardware:
+        memory_mb: 2048
+        num_cpus: 1
+        scsi: paravirtual
+        memory_reservation_lock: False
+        mem_limit: 2048
+        mem_reservation: 1024
+        cpu_limit: 8096
+        cpu_reservation: 4096
+        max_connections: 5
+        hotadd_cpu: True
+        hotremove_cpu: True
+        hotadd_memory: True
+        version: 12 # Hardware version of virtual machine
+        boot_firmware: "efi"
